@@ -12,11 +12,15 @@ Things I have used :
   docker pull wordpress:latest
   docker run -e WORDPRESS_DB_USER=wpuser -e WORDPRESS_DB_PASSWORD=wpuser@ -e WORDPRESS_DB_NAME=wordpress_db -p 8081:80 -v /root/wordpress    /html:/var/www/html --link wordpressdb:mysql --name wpcontainer -d wordpress
   To test it use: curl -I localhost:8081
-  
+  ---------------------------------------------------------------------------------------------------------------------------
   Now installing nginx:
    apt-get install nginx
+  --------------------------------------------------------------------------------------------------------------------------- 
+   go to the Nginx directory and create a new virtual host configuration for the WordPress container
    cd /etc/nginx/sites-available/
-vim wordpress
+   vim wordpress
+   --------------------------------------------------------------------------------------------------------------------------
+Now paste virtual host configuration below:
 
 server {
   listen 80;
@@ -29,8 +33,9 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   }
 }
-
+ --------------------------------------------------------------------------------------------------------------------------------
 To activate new Wordpress host:
+
 ln -s /etc/nginx/sites-available/wordpress /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-available/default
 rm -f /etc/nginx/sites-enabled/default
